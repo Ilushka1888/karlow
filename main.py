@@ -323,3 +323,21 @@ class PorterStemmer:
         if self._measure(w) > 1 and w.endswith("ll"):
             return w[:-1]
         return w
+
+
+if __name__ == "__main__":
+    st = PorterStemmer()
+    words = [
+        "caresses", "ponies", "ties", "caress", "cats",
+        "feed", "agreed", "plastered", "bled", "motoring", "sing",
+        "conflated", "troubled", "sized",
+        "hopping", "tanned", "falling", "hissing", "fizzed",
+        "happy", "sky",
+        "relational", "conditional", "rational",
+        "vietnamization", "operator", "feudalism", "decisiveness", "hopefulness",
+        "callousness", "formaliti", "sensitiviti",
+        "triplicate", "formative", "formalize", "electriciti", "electrical",
+        "goodness", "lies",
+    ]
+    for w in words:
+        print(f"{w:>16} -> {st.stem(w)}")
