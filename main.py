@@ -3,13 +3,29 @@ from __future__ import annotations
 from typing import Optional, Tuple
 
 
+
+# C — согл
+# V — глас
+
+# Важно: буква 'y' считается особым случаем:
+# - в начале слова 'y' считается согласной;
+# - после согласной 'y' считается гласной;
+# - после гласной 'y' считается согласной.
+
+# m — мера слова.
+# *v* — в основе есть хотя бы одна гласная.
+# *d — основа оканчивается на двойную согласную.
+# *o — основа оканчивается на CVC,
+
+
+
 class PorterStemmer:
     # Множество “обычных” гласных в английском. Y отдельно.
     _vowels = set("aeiou")
 
     def stem(self, word: str) -> str:
         """
-        принимает слово и возвращает его основу(sten).
+        принимает слово и возвращает его основу(stem).
         """
         if not word:
             return word
@@ -337,7 +353,7 @@ if __name__ == "__main__":
         "vietnamization", "operator", "feudalism", "decisiveness", "hopefulness",
         "callousness", "formaliti", "sensitiviti",
         "triplicate", "formative", "formalize", "electriciti", "electrical",
-        "goodness", "lies",
+        "goodness", "lies", "plastered",
     ]
     for w in words:
         print(f"{w:>16} -> {st.stem(w)}")
