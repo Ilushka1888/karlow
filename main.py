@@ -342,19 +342,88 @@ class PorterStemmer:
         return w
 
 
-if __name__ == "__main__":
+TEST_CASES = {
+    "caresses": "caress",
+    "ponies": "poni",
+    "ties": "ti",
+    "cats": "cat",
+
+    "feed": "feed",
+    "agreed": "agre",
+    "plastered": "plaster",
+    "motoring": "motor",
+    "sing": "sing",
+
+    "hopping": "hop",
+    "falling": "fall",
+    "hissing": "hiss",
+    "fizzed": "fizz",
+
+    "happy": "happi",
+    "sky": "sky",
+
+    "relational": "relat",
+    "conditional": "condit",
+    "rational": "ration",
+    "vietnamization": "vietnam",
+    "operator": "oper",
+    "feudalism": "feudal",
+    "decisiveness": "decis",
+    "hopefulness": "hope",
+
+    "triplicate": "triplic",
+    "formative": "form",
+    "formalize": "formal",
+    "electriciti": "electr",
+    "goodness": "good",
+
+    "revival": "reviv",
+    "allowance": "allow",
+    "inference": "infer",
+    "adoption": "adopt",
+    "effective": "effect",
+
+    "probate": "probat",
+    "rate": "rate",
+    "cease": "ceas",
+    "controll": "control",
+    "roll": "roll",
+}
+
+
+def run_tests() -> None:
     st = PorterStemmer()
-    words = [
-        "caresses", "ponies", "ties", "caress", "cats",
-        "feed", "agreed", "plastered", "bled", "motoring", "sing",
-        "conflated", "troubled", "sized",
-        "hopping", "tanned", "falling", "hissing", "fizzed",
-        "happy", "sky",
-        "relational", "conditional", "rational",
-        "vietnamization", "operator", "feudalism", "decisiveness", "hopefulness",
-        "callousness", "formaliti", "sensitiviti",
-        "triplicate", "formative", "formalize", "electriciti", "electrical",
-        "goodness", "lies", "plastered", "agreed", "feed",
-    ]
-    for w in words:
-        print(f"{w:>16} -> {st.stem(w)}")
+    passed = 0
+
+    for word, expected in TEST_CASES.items():
+        got = st.stem(word)
+        ok = got == expected
+
+        if ok:
+            passed += 1
+            print(f"{word:>16} -> {got:<12} OK")
+        else:
+            print(f"{word:>16} -> {got:<12} FAIL, expected: {expected}")
+
+    print(f"\nPassed: {passed}/{len(TEST_CASES)}")
+
+
+def main() -> None:
+    st = PorterStemmer()
+
+    while True:
+        line = input("> ").strip()
+
+        if line in {":q"}:
+            break
+
+        if line == ":test":
+            run_tests()
+            continue
+
+        for word in line.split():
+            print(f"{word:>16} -> {st.stem(word)}")
+
+
+if __name__ == "__main__":
+    main()
