@@ -194,22 +194,22 @@ class PorterStemmer:
         (*v*) ING -> (удалить)
         После удаления ED/ING делаем post-processing.
         """
-        w2, ok = self._replace_if(w, "eed", "ee", min_m=0)
-        if ok:
-            return w2
+        if w.endswith("eed"):
+            stem = w[:-3]
+            if self._measure(stem) > 0:
+                return stem + "ee"
+            return w
 
         if w.endswith("ed"):
             stem = w[:-2]
             if self._contains_vowel(stem):
-                w = stem
-                return self._step1b_post(w)
+                return self._step1b_post(stem)
             return w
 
         if w.endswith("ing"):
             stem = w[:-3]
             if self._contains_vowel(stem):
-                w = stem
-                return self._step1b_post(w)
+                return self._step1b_post(stem)
             return w
 
         return w
@@ -271,8 +271,8 @@ class PorterStemmer:
         ]
 
         for suf, repl in sorted(rules, key=lambda x: len(x[0]), reverse=True):
-            w2, ok = self._replace_if(w, suf, repl, min_m=0)
-            if ok:
+            if w.endswith(suf):
+                w2, _ = self._replace_if(w, suf, repl, min_m=0)
                 return w2
 
         return w
@@ -289,8 +289,8 @@ class PorterStemmer:
         ]
 
         for suf, repl in sorted(rules, key=lambda x: len(x[0]), reverse=True):
-            w2, ok = self._replace_if(w, suf, repl, min_m=0)
-            if ok:
+            if w.endswith(suf):
+                w2, _ = self._replace_if(w, suf, repl, min_m=0)
                 return w2
 
         return w
@@ -308,10 +308,11 @@ class PorterStemmer:
             stem = w[:-3]
             if stem and stem[-1] in ("s", "t") and self._measure(stem) > 1:
                 return stem
+            return w
 
         for suf in sorted(suffixes, key=len, reverse=True):
-            w2, ok = self._replace_if(w, suf, "", min_m=1)
-            if ok:
+            if w.endswith(suf):
+                w2, _ = self._replace_if(w, suf, "", min_m=1)
                 return w2
 
         return w
@@ -353,7 +354,7 @@ if __name__ == "__main__":
         "vietnamization", "operator", "feudalism", "decisiveness", "hopefulness",
         "callousness", "formaliti", "sensitiviti",
         "triplicate", "formative", "formalize", "electriciti", "electrical",
-        "goodness", "lies", "plastered",
+        "goodness", "lies", "plastered", "agreed", "feed",
     ]
     for w in words:
         print(f"{w:>16} -> {st.stem(w)}")
