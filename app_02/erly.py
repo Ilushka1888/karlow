@@ -91,22 +91,17 @@ def parse_rule_line(line: str):
 
 
 def input_custom_grammar():
-    print()
-    print("Ввод новой грамматики")
+    print("\nВвод новой грамматики")
     print("Формат:")
     print("  S -> ST | T")
-    print("  T -> aT | b")
-    print()
+    print("  T -> aT | b\n")
     print("Или через пробелы:")
     print("  S -> S T | T")
-    print("  T -> a T | b")
-    print()
+    print("  T -> a T | b\n")
     print("Для пустой строки используйте ε:")
-    print("  A -> ε")
-    print()
+    print("  A -> ε\n")
     print("Вводите правила по одному.")
-    print("Пустая строка — закончить ввод.")
-    print()
+    print("Пустая строка — закончить ввод.\n")
 
     grammar = {}
 
@@ -126,8 +121,7 @@ def input_custom_grammar():
 
         except ValueError as error:
             print(f"Ошибка: {error}")
-            print("Попробуйте ещё раз.")
-            print()
+            print("Попробуйте ещё раз.\n")
 
     if not grammar:
         print("Грамматика не была введена. Используется грамматика по умолчанию.")
@@ -148,8 +142,7 @@ def input_custom_grammar():
 
 
 def print_grammar(grammar, start_symbol):
-    print()
-    print("Текущая грамматика:")
+    print("\nТекущая грамматика:")
 
     for lhs, productions in grammar.items():
         variants = []
@@ -162,8 +155,7 @@ def print_grammar(grammar, start_symbol):
 
         print(f"  {lhs} -> {' | '.join(variants)}")
 
-    print(f"Стартовый символ: {start_symbol}")
-    print()
+    print(f"Стартовый символ: {start_symbol}\n")
 
 
 def parse_word(line: str) -> list[str]:
@@ -178,7 +170,7 @@ def parse_word(line: str) -> list[str]:
     return list(line)
 
 
-def earley_algorithm(grammar, start_symbol, word):
+def erly_alg(grammar, start_symbol, word):
     n = len(word)
 
     M = [[set() for _ in range(n + 1)] for _ in range(n + 1)]
@@ -375,7 +367,7 @@ def check_word(grammar, start_symbol):
 
     word = parse_word(line)
 
-    accepted, M = earley_algorithm(grammar, start_symbol, word)
+    accepted, M = erly_alg(grammar, start_symbol, word)
 
     print(f"Слово: {''.join(word) if word else 'ε'}")
 
