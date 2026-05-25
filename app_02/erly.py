@@ -178,6 +178,7 @@ def erly_alg(grammar, start_symbol, word):
     queue = deque()
     nonterminals = set(grammar.keys())
 
+    # D
     def is_nonterminal(symbol: str) -> bool:
         return symbol in nonterminals
 
@@ -186,13 +187,14 @@ def erly_alg(grammar, start_symbol, word):
             M[i][j].add(situation)
             queue.append((i, j, situation))
 
-    # A. Инициализация
+    # A
     for rhs in grammar[start_symbol]:
         add(0, 0, Situation(start_symbol, rhs, 0))
 
     while queue:
         i, j, situation = queue.popleft()
 
+        # D
         if not situation.is_complete():
             symbol = situation.next_symbol()
 
@@ -204,11 +206,11 @@ def erly_alg(grammar, start_symbol, word):
                     for completed in list(M[j][k]):
                         if completed.lhs == symbol and completed.is_complete():
                             add(i, k, situation.advance())
-
+            # B
             else:
                 if j < n and word[j] == symbol:
                     add(i, j + 1, situation.advance())
-
+        # C
         else:
             completed_nonterminal = situation.lhs
 
